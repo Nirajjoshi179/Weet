@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Profile</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box;font-family:Arial}
+
+body{
+margin:0;
+background:#f5f5f5;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center
+}
+
+.box{
+width:calc(100% - 30px);
+max-width:380px;
+padding:22px;
+background:#fff;
+border-radius:16px;
+box-shadow:0 4px 18px #0001
+}
+
+h2{text-align:center;margin:0 0 18px}
+
+input,button{
+width:100%;
+height:46px;
+margin-top:10px;
+border-radius:9px;
+font-size:15px
+}
+
+input{
+padding:0 12px;
+border:1px solid #ccc;
+outline:none
+}
+
+input[type=file]{padding-top:12px}
+
+button{
+border:0;
+background:#111;
+color:#fff
+}
+
+button:disabled{opacity:.6}
+
+.red{background:#dc2626}
+
+.switch{
+margin-top:15px;
+text-align:center;
+color:#2563eb;
+font-size:14px
+}
+
+.msg{
+margin-top:12px;
+text-align:center;
+font-size:14px
+}
+
+.profile{text-align:center}
+
+.profile img{
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+background:#ddd;
+margin:10px
+}
+
+#profileBox,#editBox{display:none}
+
+.back{
+background:#64748b
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<!-- LOGIN / SIGNUP -->
+<div id="authBox">
+
+<h2 id="formTitle">Login</h2>
+
+<input id="name" placeholder="Your name" style="display:none">
+
+<input id="authEmail" type="email" placeholder="Email">
+
+<input id="password" type="password" placeholder="Password">
+
+<button id="submitBtn">Login</button>
+
+<div id="message" class="msg"></div>
+
+<div id="switchBtn" class="switch">
+Create a new account
+</div>
+
+</div>
+
+
+<!-- PROFILE -->
+<div id="profileBox" class="profile">
+
+<h2>My Profile</h2>
+
+<img id="viewImg" src="https://via.placeholder.com/110">
+
+<h3 id="viewName"></h3>
+
+<p id="viewEmail"></p>
+
+<button onclick="openEdit()">Edit Profile</button>
+
+<button id="logoutBtn" class="red">Logout</button>
+
+</div>
+
+
+<!-- EDIT PROFILE -->
+<div id="editBox">
+
+<h2>Edit Profile</h2>
+
+<img id="editImg"
+src="https://via.placeholder.com/110"
+style="display:block;width:110px;height:110px;border-radius:50%;object-fit:cover;margin:0 auto">
+
+<input id="imageInput" type="file" accept="image/*">
+
+<input id="username" placeholder="Username">
+
+<input id="editEmail" type="email" placeholder="Email">
+
+<button id="saveBtn">Save Profile</button>
+
+<button class="back" onclick="showProfile()">Back</button>
+
+<div id="editMessage" class="msg"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const db=window.supabase.createClient(
+"https://wgylobjcxqmjsutgdhdz.supabase.co",
+"sb_publishable_IfpDVaKbbxem461SnCl9UA_LFwdNOon"
+);
+
+const $=id=>document.getElementById(id);
+
+let signupMode=false;
+let currentUser=null;
+
+
+/* LOGIN / SIGNUP */
+
+$("switchBtn").onclick=()=>{
+
+signupMode=!signupMode;
+
+$("formTitle").textContent=
+signupMode?"Create Account":"Login";
+
+$("submitBtn").textContent=
+signupMode?"Sign Up":"Login";
+
+$("name").style.display=
+signupMode?"block":"none";
+
+$("switchBtn").textContent=
+signupMode
+?"Already have an account? Login"
+:"Create a new account";
+
+$("message").textContent="";
+};
+
+
+$("submitBtn").onclick=async()=>{
+
+const email=$("authEmail").value.trim();
+const password=$("password").value;
+const name=$("name").value.trim();
+
+if(!email||!password)
+return $("message").textContent=
+"Email और Password भरें";
+
+if(signupMode&&!name)
+return $("message").textContent=
+"Name डालें";
+
+const btn=$("submitBtn");
+
+btn.disabled=true;
+btn.textContent=
+signupMode?"Signing up...":"Logging in...";
+
+try{
+
+if(signupMode){
+
+const {data,error}=await db.auth.signUp({
+email,
+password,
+options:{
+data:{name}
+}
+});
+
+if(error)throw error;
+
+if(data.session){
+
+currentUser=data.user;
+await showProfile();
+
+}else{
+
+$("message").style.color="#16a34a";
+$("message").textContent=
+"Signup सफल हुआ। Email confirm करें।";
+
+}
+
+}else{
+
+const {data,error}=await db.auth.signInWithPassword({
+email,
+password
+});
+
+if(error)throw error;
+
+currentUser=data.user;
+
+await showProfile();
+
+}
+
+}catch(e){
+
+$("message").style.color="#dc2626";
+$("message").textContent=e.message;
+
+}
+
+btn.disabled=false;
+btn.textContent=signupMode?"Sign Up":"Login";
+
+};
+
+
+/* PROFILE */
+
+async function showProfile(){
+
+if(!currentUser){
+
+const {data}=await db.auth.getUser();
+
+currentUser=data.user;
+}
+
+if(!currentUser)return;
+
+const {data:p}=await db
+.from("Profile")
+.select("username,email,img")
+.eq("User_id",currentUser.id)
+.maybeSingle();
+
+$("authBox").style.display="none";
+$("editBox").style.display="none";
+$("profileBox").style.display="block";
+
+$("viewName").textContent=
+p?.username||currentUser.user_metadata?.name||"User";
+
+$("viewEmail").textContent=
+p?.email||currentUser.email||"";
+
+$("viewImg").src=
+p?.img||"https://via.placeholder.com/110";
+
+}
+
+
+/* EDIT OPEN */
+
+async function openEdit(){
+
+const {data:p}=await db
+.from("Profile")
+.select("username,email,img")
+.eq("User_id",currentUser.id)
+.maybeSingle();
+
+$("profileBox").style.display="none";
+$("editBox").style.display="block";
+
+$("username").value=p?.username||"";
+$("editEmail").value=p?.email||currentUser.email||"";
+
+$("editImg").src=
+p?.img||"https://via.placeholder.com/110";
+
+}
+
+
+/* IMAGE PREVIEW */
+
+$("imageInput").onchange=()=>{
+
+const f=$("imageInput").files[0];
+
+if(f)
+$("editImg").src=URL.createObjectURL(f);
+
+};
+
+
+/* SAVE PROFILE */
+
+$("saveBtn").onclick=async()=>{
+
+const name=$("username").value.trim();
+const mail=$("editEmail").value.trim();
+const f=$("imageInput").files[0];
+
+if(!name)
+return $("editMessage").textContent="Username डालें";
+
+if(!mail)
+return $("editMessage").textContent="Email डालें";
+
+const btn=$("saveBtn");
+
+btn.disabled=true;
+btn.textContent="Saving...";
+
+try{
+
+let imageUrl=null;
+
+if(f){
+
+const path=
+currentUser.id+"/"+Date.now()+"_"+f.name;
+
+const {error}=await db.storage
+.from("Profile")
+.upload(path,f);
+
+if(error)throw error;
+
+imageUrl=db.storage
+.from("Profile")
+.getPublicUrl(path)
+.data.publicUrl;
+
+}
+
+if(!imageUrl){
+
+const {data:p}=await db
+.from("Profile")
+.select("img")
+.eq("User_id",currentUser.id)
+.maybeSingle();
+
+imageUrl=p?.img||null;
+
+}
+
+
+const {error}=await db
+.from("Profile")
+.upsert({
+
+User_id:currentUser.id,
+username:name,
+email:mail,
+img:imageUrl,
+updated_at:new Date().toISOString()
+
+},{
+onConflict:"User_id"
+});
+
+if(error)throw error;
+
+$("editMessage").style.color="#16a34a";
+$("editMessage").textContent="Profile saved ✅";
+
+$("imageInput").value="";
+
+await showProfile();
+
+}catch(e){
+
+$("editMessage").style.color="#dc2626";
+$("editMessage").textContent=e.message;
+
+}
+
+btn.disabled=false;
+btn.textContent="Save Profile";
+
+};
+
+
+/* LOGOUT */
+
+$("logoutBtn").onclick=async()=>{
+
+await db.auth.signOut();
+
+currentUser=null;
+
+$("profileBox").style.display="none";
+$("editBox").style.display="none";
+$("authBox").style.display="block";
+
+$("authEmail").value="";
+$("password").value="";
+
+};
+
+
+/* AUTO LOGIN */
+
+async function checkUser(){
+
+const {data}=await db.auth.getSession();
+
+if(data.session){
+
+currentUser=data.session.user;
+
+await showProfile();
+
+}
+
+}
+
+checkUser();
+
+</script>
+
+</body>
+</html>
