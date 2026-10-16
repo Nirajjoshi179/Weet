@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="google-site-verification" content="z_bK6H6Uz4wTszGFRpKBBodVkuvCpGgF5nWV3LemEwo" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5462068068477694"
+     crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Get up</title>
+  <link rel="icon" type="image/png" href="/icon.png">
+</head>
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+html,body{
+  width:100%;
+  height:100%;
+  background:#fff;
+  font-family:Arial,sans-serif;
+}
+.cantenner{
+  position:fixed;
+  bottom:50px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:10px;
+  gap:10px;
+  width:99.5%;
+  margin-left:1px;
+  height:650px;
+  padding:10px 5px;
+  border:2px solid #eee;
+  border-radius:45px 45px 2px 2px;
+  background:#fff;
+  box-shadow:0px 0px 10px gray;
+}
+
+textarea{
+  width:95%;
+  height:350px;
+  border:0.1px solid #ccc;
+  padding:10px;
+  outline:none;
+  resize:none;
+}
+#html{
+  border-radius:30px;
+}
+.input{
+  width:92%;
+  height:45px;
+  outline:none;
+  padding-left:20px;
+  margin-top:0px;
+  font-size:22px;
+  border-radius:20px;
+  border:none;
+
+  box-shadow:0px 0px 0px  0.001px #ccc;
+
+}
+.fileimg,select{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  font-size:15px;
+  width:95%;
+  padding:10px;
+  border-radius:20px;
+  border:1px solid #ccc;
+}
+select{
+  padding:12px;
+}
+.html-upload{
+  width:46%;
+  padding:15px;
+  height:50px;
+  font-size:18px;
+  background:#067ef6;
+  color:white;
+  border-radius:20px;
+  border:1px solid black;
+}
+.html-div{
+  width:95%;
+  padding:5px;
+  background:;
+  align-items:center;
+  justify-content:space-between;
+  display:flex;
+}
+.htmls{
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100vw;
+  height:100vh;
+  display:none;
+  background:white
+}
+.backs{
+  position:fixed;
+  left:0px;
+  top:0px;
+  font-size:18px;
+  width:100px;
+  background:royalblue;
+  border:10px;
+  padding:5px 10px;
+}
+
+.htmls .viewtohtml{
+  margin-top:30px;
+  width:100%;
+  height:88%;
+}
+.htmls.active{
+  display:block;
+}
+.htmlpreview{
+  width:40%;
+  padding:15px;
+  height:50px;
+  font-size:18px;
+  background:#067ef6;
+  color:white;
+  border-radius:20px;
+  border:1px solid black;
+}
+.htmlpreview:hover{
+  font-size:18px;
+}
+.html-upload:hover{
+  font-size:18px;
+}
+.html-upload:disabled{
+  background:#999;
+  color:#eee;
+  cursor:not-allowed;
+}
+
+.bodytop{
+  width:100%;
+  height:92%;
+  overflow-x:hidden;
+}
+.bodybottom{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:8%;
+  align-items:center;
+  background:#fff;
+  z-index:10;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+  justify-content:space-around;
+  display: flex;
+  -webkit-column-width: 100px;
+  -moz-column-width: 100px;
+  column-width: 100px;
+}
+ button{
+  font-size:28px;
+  background:transparent;
+  border:none;
+  color:black;
+  width:100%;
+}
+button:hover{
+  font-size:28px;
+}
+.screen{
+display:none;
+width:100%;
+height:100%;
+background:#fff;
+}
+.screen.active{
+  display:block;
+}
+.header{
+  position:fixed;
+  display:flex;
+  width:100%;
+  align-items:center;
+  justify-content:space-between;
+  padding:5px 18px;
+  font-size:20px;
+  background:#fff;
+  padding:10px 20px;
+  border-bottom:1px solid #ccc;
+  gap:5px;
+  z-index:10;
+
+}
+.div{
+  position:relative;
+  width:100%;
+  height:60px;
+  background:#fff;
+}
+.search{
+  display:flex;
+  align-items:center;
+  border:2px solid black;
+  height:40px;
+  width:300px;
+  padding:5px;
+  border-radius:50px;
+  background:#fff;
+}
+
+.search input{
+  width:250px;
+  height:30px;
+  border-radius:5px;
+  border:none;
+  
+  outline:none;
+  padding-left:10px;
+  font-size:18px;
+}
+.SaveShow{
+  font-size:28px;
+}
+.cards{
+  width:100%;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:10px;
+}
+.card{
+  width:31.5%;
+  height:140px;
+  background:white;
+  border-radius:15px;
+  text-align:center;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+  padding:5px;
+  box-shadow:0px 0px 10px gray;
+  
+}
+.card .CardBack{
+  display:none;
+}
+.card img{
+  width:100%;
+  height:75%;
+  object-fit:cover;
+  border-radius:10px;
+}
+.cardh2{
+  display:flex;
+  justify-content:start;
+  align-items:center;
+  width:100%;
+  height:25px;
+  padding:8px 10px 10px 5px;
+  overflow-y:hidden;
+  overflow-x:auto;
+  border-radius:5px;
+  border:1px solid #ccc;
+    /* Scrollbar hide */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.cardh2::-webkit-scrollbar {
+  display: none;
+}
+.p{
+  display:none;
+  padding-left:10px;
+}
+
+.fullCard{
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100vw;
+  height:100vh;
+  z-index:12;
+  padding:0px;
+  border-radius:5px;
+  background:white;
+}
+#profile{
+  position:fixed;
+  top:0px;
+  background:white;
+  height:100vh;
+}
+.profileheader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100vw;
+  height:8%;
+  padding:0px 10px;
+  border-bottom:2px solid #ccc;
+}
+.profileheader button{
+  width:100px;
+  border:none;
+  background:royalblue;
+  border-radius:28px;
+  color:white;
+  padding:5px;
+}
+.post iframe{
+  width:100%;
+  height:612px;
+  border:2px solid #f3f3f3;
+  border-radius:2px;
+}
+.fullCard .CardBack{
+  position:absolute;
+  display:block;
+  align-items:center;
+  justify-content: center;
+  width:35px;
+  height:35 px;
+  color:white;
+  background:rgb(0,0,0,.3);
+  margin-bottom:10px;
+  border-radius:50%;
+  padding:1px;
+  z-index:20;
+}
+.fullCard .headhtml{
+  position:absolute;
+  width:97%;
+  height:35px;
+  background:transparent;
+}
+.fullCard .cardh2{
+  width:100px;
+}
+.fullCard img{
+  display:none;
+}
+.card .iframe{
+  display:none;
+}
+.fullCard .iframe{
+  display:block;
+  font-size:22px;
+  height:85%;
+  width:101%;
+  border:none;
+  margin-left:-2.5px;
+  border-radius:2px;
+}
+.fullCard .tag{
+  display:flex;
+  padding:8px 5px 5px 5px;
+  align-items:center;
+  justify-content: space-between;
+}
+.fullCard .tag{
+  position:sticky;
+  bottom:0px;
+}
+.fullCard .iframe .preview{
+  padding:0px;
+  width:100%;
+  height:100%;
+  border:none;
+}
+.card .AddSave{
+  visibility:hidden;
+  font-size:2px;
+}
+.fullCard .AddSave{
+ visibility:visible;
+ font-size:23px;
+ 
+}
+
+.fullCard .p{
+  display:block;
+  padding:6px;
+  padding-left:20px;
+  padding-right:18px ;
+  border-radius:5px;
+  background:royalblue;
+  color:black;
+  align-items:center;
+}
+.fullCard .AddSave #addSave:hover{
+  font-weight:700;
+}
+
+.searchBack{
+  position:fixed;
+  left:-5px;
+  z-index:10;
+  margin-left:15px;
+  display:none;
+}
+.SaveShowbox{
+  position:fixed;
+  left:0px;
+  top:0px;
+  width:100vw;
+  height:92vh;
+  background:white;
+  display:none;
+  z-index:10;
+}
+.SaveShowboxBack{
+  position:fixed;
+  top:5px;
+  left:5px;
+  height:35px;
+  width:35px;
+  font-size:20px;
+  color:white;
+  background:black;
+  border-radius:25px;
+}
+
+.SaveShowbox.SaveShow{
+  display:block;
+}
+
+.hide{
+  display:none;
+}
+
+</style>
+<body>
+  
+  <div class="bodytop">
+  <div class="screen active" id="home">
+    <div class="header">
+    <div class="search">
+   <i class="fa-solid fa-magnifying-glass"></i><input type="search" id="searchinput" placeholder="Search...">
+        <div class="searchBack">
+       <i class="fa-solid fa-arrow-left"></i>
+     </div>
+   </div>
+          <div class="SaveShowbox">
+            <button class="SaveShowboxBack" onclick="SaveShowboxBack()"><i class="fa-solid fa-angle-left"></i></button>
+          </div>
+         <div class="SaveShow" onclick="SaveShow()">
+        <i class="fa-regular fa-bookmark"></i>
+        </div>
+   </div>
+     <div class="div"></div>
+   <div class="cards">
+   </div>
+  </div>
+  
+  <div class="screen" id="addicon">
+    <div class="cantenner">
+<input class="input" id="title" placeholder="Title">
+
+<textarea id="html" placeholder="HTML / Text"></textarea>
+
+<input type="file" class="fileimg">
+
+<select id="visibility">
+  <option value="public">Public</option>
+  <option value="private">Private</option>
+</select>
+
+<div class="htmls" id="view">
+<button onclick="backs()" class="backs"> back</button>
+  <iframe src="" class="viewtohtml"></iframe>
+</div>
+
+<div class="html-div">
+<button class="htmlpreview" onclick="htmlpreview()">Preview</button>
+<button class="html-upload" id="btn" onclick="upload()">Upload</button>
+</div>
+
+<p id="msg"></p>
+</div>
+  </div>
+  </div>
+  
+  <div class="screen" id="profile">
+    <div class="profileheader">
+    <h2>Profile</h2>
+    <button onclick="location='signup.html'">Login </button>
+  </div>
+   <div class="post">
+   <iframe src="https://gethtml.netlify.app/post.html"></iframe>
+   </div>
+  </div>
+  
+  <div class="bodybottom">
+    <button onclick="nav('home')"><i class="fa-solid fa-house"></i></button>
+    <button onclick="nav('addicon')"><i class="fa-solid fa-plus"></i></button>
+    <button  onclick="nav('profile')"><i class="fa-solid fa-circle-user"></i></button>
+  </div>
+</body>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://wgylobjcxqmjsutgdhdz.supabase.co",
+  "sb_publishable_IfpDVaKbbxem461SnCl9UA_LFwdNOon"
+);
+
+// Load Cards
+async function loadCards() {
+
+  const { data, error } = await supabase
+    .from("BIG")
+    .select("*")
+    .eq(
+      "visibility",
+      "public"
+    )
+    .order("id", { ascending: false });
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  const cards = document.querySelector(".cards");
+  cards.innerHTML = "";
+
+  data.forEach((imgcard) => {
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+<button class="CardBack" onclick="back(event,this)">
+<i class="fa-solid fa-angle-left"></i>
+</button>
+
+<div class="headhtml"></div>
+
+<img src="${imgcard.icon_url}">
+
+<div class="iframe">
+<iframe class="preview"></iframe>
+</div>
+
+<div class="tag">
+<h2 class="cardh2">${imgcard.title}</h2>
+
+
+
+<p class="p" onclick="copyCode(this)">
+Code <i class="fa-solid fa-copy"></i>
+</p>
+</div>
+`;
+
+    card.querySelector(".preview").srcdoc = imgcard.html;
+    
+
+    card.addEventListener("click", function () {
+      this.classList.add("fullCard");
+    });
+    
+
+// Copy Button
+window.copyCode = function(btn) {
+
+  // इसी card का iframe
+  const frame = btn.closest(".card").querySelector(".preview");
+
+  // srcdoc कॉपी करें
+  navigator.clipboard.writeText(frame.srcdoc).then(() => {
+    msg.innerText = "Copied!";
+  }).catch(() => {
+    msg.innerText = "Copy Failed!";
+  });
+
+};
+    cards.appendChild(card);
+
+  });
+
+}
+
+// Upload
+window.upload = async function(){
+
+  const btn = document.getElementById("btn");
+  const msg = document.getElementById("msg");
+  const file = document.querySelector(".fileimg").files[0];
+  // Click ke turant baad disable
+  btn.disabled = true;
+
+  const {
+    data:{user}
+  } = await supabase.auth.getUser();
+
+  if(!user){
+    msg.textContent="पहले Login करें";
+    btn.disabled = false;
+    return;
+  }
+
+  if(!title.value.trim()){
+    msg.textContent="Title डालें";
+    btn.disabled = false;
+    return;
+  }
+  
+const fileName = Date.now() + "_" + file.name;
+
+  const { error: uploadError } = await supabase.storage
+    .from("BIG")
+    .upload(fileName, file);
+
+  if (uploadError) {
+    alert(uploadError.message);
+    return;
+  }
+
+  const { data: urlData } = supabase.storage
+    .from("BIG")
+    .getPublicUrl(fileName);
+  
+  const {error}=await supabase
+    .from("BIG")
+    .insert({
+      title:title.value.trim(),
+      html:html.value,
+      icon_url:urlData.publicUrl,
+      visibility:visibility.value,
+      user_id:user.id 
+    });
+
+  if(error){
+    msg.textContent=error.message;
+    btn.disabled = false;
+    return;
+  }
+
+  msg.textContent = " Upload Successful ✅";
+
+  title.value="";
+  html.value="";
+  file.value="";
+  document.querySelector(".fileimg").value="";
+  // Successful upload ke baad disabled hi rahega
+  btn.disabled = false;
+  loadCards();
+
+};
+
+
+// Search
+const search = document.querySelector("#searchinput");
+
+search.addEventListener("input", function () {
+
+  const value = search.value.toLowerCase();
+
+  document.querySelectorAll(".card").forEach(card => {
+
+    if (card.innerText.toLowerCase().includes(value)) {
+      card.classList.remove("hide");
+    } else {
+      card.classList.add("hide");
+    }
+
+  });
+
+});
+
+const input = document.querySelector(".input");
+
+input.addEventListener("input", function () {
+  this.value = this.value.replace(/\s/g, "");
+});
+
+// Page Load
+loadCards();
+
+</script>
+<script>
+ let html=document.getElementById("html");
+ let viewtohtml=document.querySelector(".viewtohtml");
+ 
+function htmlpreview(){
+  document.querySelector(".htmls").classList.add("active");
+ viewtohtml.srcdoc=html.value;
+}
+function backs(){
+  document.querySelector(".htmls").classList.remove("active");
+}
+  function nav(id){
+  let screens=document.querySelectorAll(".screen");
+  screens.forEach((n)=>{
+    n.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+}
+
+function openCard(openCard){
+  openCard.classList.add("fullCard");
+}
+
+function back(event,back){
+  event.stopPropagation();
+  back.parentElement.classList.remove("fullCard");
+  
+}
+document.querySelector("#searchinput").addEventListener("focus", function(e){
+  document.querySelector("#searchinput").style.width="230px"
+  document.querySelector(".searchBack").style.display="block";
+  document.querySelector(".search").style.width="280px";
+  document.querySelector(".search").style.marginLeft="20px"
+  
+});
+document.querySelector(".searchBack").addEventListener("click",()=>{
+  document.querySelector(".searchBack").style.display="none";
+  
+
+  
+})
+
+document.querySelector(".searchBack").addEventListener("click",function(){
+  document.querySelector("#searchinput").style.width="250px"
+  document.querySelector(".search").style.width="300px";
+  document.querySelector(".search").style.marginLeft="0px"
+  document.querySelectorAll(".card").style.display="block"
+  
+});
+
+function SaveShow(){
+  document.querySelector(".SaveShowbox").classList.add("SaveShow");
+}
+function SaveShowboxBack(){
+  document.querySelector(".SaveShowbox").classList.remove("SaveShow")
+}
+
+</script>
+
+</html>
